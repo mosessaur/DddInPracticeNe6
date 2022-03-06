@@ -1,16 +1,17 @@
 ﻿using System;
+using DddInPractice.Domain.Common;
 
-namespace DddInPractice.Domain
+namespace DddInPractice.Domain.SharedKernel
 {
     public sealed class Money: ValueObjectBase<Money>
     {
-        public static readonly Money None = new Money(0, 0, 0, 0, 0, 0);
-        public static readonly Money Cent = new Money(1, 0, 0, 0, 0, 0);
-        public static readonly Money TenCent = new Money(0, 1, 0, 0, 0, 0);
-        public static readonly Money Quarter = new Money(0, 0, 1, 0, 0, 0);
-        public static readonly Money Dollar = new Money(0, 0, 0, 1, 0, 0);
-        public static readonly Money FiveDollar = new Money(0, 0, 0, 0, 1, 0);
-        public static readonly Money TwentyDollar = new Money(0, 0, 0, 0, 0, 1);
+        public static Money None => new Money(0, 0, 0, 0, 0, 0);
+        public static Money Cent => new Money(1, 0, 0, 0, 0, 0);
+        public static Money TenCent => new Money(0, 1, 0, 0, 0, 0);
+        public static Money Quarter => new Money(0, 0, 1, 0, 0, 0);
+        public static Money Dollar => new Money(0, 0, 0, 1, 0, 0);
+        public static Money FiveDollar => new Money(0, 0, 0, 0, 1, 0);
+        public static Money TwentyDollar => new Money(0, 0, 0, 0, 0, 1);
 
         public int OneCentCount { get; }
         public int TenCentCount { get; }
@@ -142,19 +143,19 @@ namespace DddInPractice.Domain
         private Money AllocateCore(decimal amount)
         {
             int twentyDollarCount = Math.Min((int)(amount / 20), TwentyDollarCount);
-            amount = amount - twentyDollarCount * 20;
+            amount -= twentyDollarCount * 20;
 
             int fiveDollarCount = Math.Min((int)(amount / 5), FiveDollarCount);
-            amount = amount - fiveDollarCount * 5;
+            amount -= fiveDollarCount * 5;
 
             int oneDollarCount = Math.Min((int)amount, OneDollarCount);
-            amount = amount - oneDollarCount;
+            amount -= oneDollarCount;
 
             int quarterCount = Math.Min((int)(amount / 0.25m), QuarterCount);
-            amount = amount - quarterCount * 0.25m;
+            amount -= quarterCount * 0.25m;
 
             int tenCentCount = Math.Min((int)(amount / 0.1m), TenCentCount);
-            amount = amount - tenCentCount * 0.1m;
+            amount -= tenCentCount * 0.1m;
 
             int oneCentCount = Math.Min((int)(amount / 0.01m), OneCentCount);
 

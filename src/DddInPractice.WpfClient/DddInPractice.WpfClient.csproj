@@ -21,6 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DotNetProjects.Extended.Wpf.Toolkit" Version="5.0.100" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DddInPractice.Data\DddInPractice.Data.csproj" />
   </ItemGroup>
 
@@ -65,11 +69,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Atms\AtmViewModel.xaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
     <Page Update="Common\Images.xaml">
       <Generator>XamlIntelliSenseFileGenerator</Generator>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Page>
-    <Page Update="SnackMachineViewModel.xaml">
+    <Page Update="SnackMachines\SnackMachineViewModel.xaml">
       <Generator>XamlIntelliSenseFileGenerator</Generator>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Page>

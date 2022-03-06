@@ -2,7 +2,7 @@
 
 public class DialogService
 {
-    public bool? ShowDialog(ViewModel viewModel)
+    public bool? ShowDialog(ViewModelBase viewModel)
     {
         CustomWindow window = new CustomWindow(viewModel);
         return window.ShowDialog();

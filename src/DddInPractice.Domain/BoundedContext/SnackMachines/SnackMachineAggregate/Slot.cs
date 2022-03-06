@@ -1,4 +1,6 @@
-﻿namespace DddInPractice.Domain
+﻿using DddInPractice.Domain.Common;
+
+namespace DddInPractice.Domain.BoundedContext.SnackMachines.SnackMachineAggregate
 {
     public class Slot : EntityBase
     {

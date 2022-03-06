@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using DddInPractice.Domain.BoundedContext.SnackMachines.SnackMachineAggregate;
 using FluentAssertions;
 using Xunit;
-using static DddInPractice.Domain.Money;
-using static DddInPractice.Domain.Snack;
+using static DddInPractice.Domain.BoundedContext.SnackMachines.SnackMachineAggregate.Snack;
+using static DddInPractice.Domain.SharedKernel.Money;
 
-namespace DddInPractice.Domain.Tests;
+namespace DddInPractice.Domain.Tests.BoundedContext.SnackMachines.SnackMachineAggregate;
 
 public class SnackMachineSpecs
 {

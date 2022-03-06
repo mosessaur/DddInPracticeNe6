@@ -1,10 +1,9 @@
 ﻿using System;
-
+using DddInPractice.Domain.SharedKernel;
 using FluentAssertions;
-
 using Xunit;
 
-namespace DddInPractice.Domain.Tests;
+namespace DddInPractice.Domain.Tests.SharedKernel;
 
 public class MoneySpecs
 {

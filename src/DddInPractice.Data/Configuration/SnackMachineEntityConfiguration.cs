@@ -1,4 +1,5 @@
-﻿using DddInPractice.Domain;
+﻿using DddInPractice.Domain.BoundedContext.SnackMachines.SnackMachineAggregate;
+using DddInPractice.Domain.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -36,9 +37,9 @@ internal class SnackMachineEntityConfiguration : IEntityTypeConfiguration<SnackM
             });
         });
 
-        builder.Navigation(sm => sm.MoneyInside).IsRequired(true);
+        builder.Navigation(sm => sm.MoneyInside).IsRequired();
 
-        // Configurating aggregate (DDD).
+        // Configuring aggregate (DDD).
         // Alt: Can use separate entity configuration class for Slot and use HasMany WithOne here
         builder.OwnsMany<Slot>(SnackMachine.SlotsNavigationPropertyName, slotNavBldr =>
         {
@@ -48,7 +49,7 @@ internal class SnackMachineEntityConfiguration : IEntityTypeConfiguration<SnackM
             // ValueObject config
             slotNavBldr.OwnsOne(slot => slot.SnackPile, snackPileNavBldr =>
               {
-                  const string SnackIdFkColumnName = "SnackId";
+                  const string snackIdFkColumnName = "SnackId";
                   snackPileNavBldr.Property(sp => sp.Price)
                                   .HasPrecision(12, 2).HasColumnName(nameof(SnackPile.Price));
 
@@ -58,12 +59,12 @@ internal class SnackMachineEntityConfiguration : IEntityTypeConfiguration<SnackM
                   // Slot 1..* Snack relationship One to many
                   snackPileNavBldr.HasOne(sp => sp.Snack)
                                   .WithMany()
-                                  .HasForeignKey(SnackIdFkColumnName)
+                                  .HasForeignKey(snackIdFkColumnName)
                                   .IsRequired();
                   
                   
-                  snackPileNavBldr.Property<long>(SnackIdFkColumnName)
-                                  .HasColumnName(SnackIdFkColumnName);
+                  snackPileNavBldr.Property<long>(snackIdFkColumnName)
+                                  .HasColumnName(snackIdFkColumnName);
 
                   snackPileNavBldr.Navigation(sp => sp.Snack)
                                   .AutoInclude();

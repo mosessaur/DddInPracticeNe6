@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DddInPractice.Domain.Common;
+using DddInPractice.Domain.SharedKernel;
+using static DddInPractice.Domain.SharedKernel.Money;
 
-using static DddInPractice.Domain.Money;
-
-namespace DddInPractice.Domain
+namespace DddInPractice.Domain.BoundedContext.SnackMachines.SnackMachineAggregate
 {
     public sealed class SnackMachine : AggregateRootBase
     {

@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace DddInPractice.WpfClient.Common;
 
-public abstract class ViewModel : INotifyPropertyChanged
+public abstract class ViewModelBase : INotifyPropertyChanged
 {
     protected static readonly DialogService _dialogService = new DialogService();
     public event PropertyChangedEventHandler? PropertyChanged;

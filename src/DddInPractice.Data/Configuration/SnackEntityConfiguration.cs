@@ -1,4 +1,4 @@
-﻿using DddInPractice.Domain;
+﻿using DddInPractice.Domain.BoundedContext.SnackMachines.SnackMachineAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,7 +10,7 @@ internal class SnackEntityConfiguration : IEntityTypeConfiguration<Snack>
     {
         builder.ToTable(nameof(Snack)).HasKey(t => t.Id);
 
-        builder.Property(t => t.Name).HasMaxLength(250).IsRequired(true);
+        builder.Property(t => t.Name).HasMaxLength(250).IsRequired();
 
         builder.HasData(
             new { Id = 1L, Name = "Chocolate" },

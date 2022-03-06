@@ -1,4 +1,4 @@
-﻿namespace DddInPractice.Domain
+﻿namespace DddInPractice.Domain.Common
 {
     public abstract class ValueObjectBase<T>
         where T : ValueObjectBase<T>

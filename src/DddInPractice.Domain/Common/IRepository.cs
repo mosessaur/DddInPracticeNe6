@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace DddInPractice.Domain
+﻿namespace DddInPractice.Domain.Common
 {
     public interface IRepository<T> where T : AggregateRootBase
     {

@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DddInPractice.Data;
-using DddInPractice.Domain;
+using DddInPractice.Data.SnackMachines;
+using DddInPractice.Domain.BoundedContext.SnackMachines.SnackMachineAggregate;
+using DddInPractice.Domain.SharedKernel;
 using DddInPractice.WpfClient.Common;
 
-namespace DddInPractice.WpfClient;
+namespace DddInPractice.WpfClient.SnackMachines;
 
-public class SnackMachineViewModel : ViewModel
+public class SnackMachineViewModel : ViewModelBase
 {
     private readonly SnackMachine _snackMachine;
     private readonly SnackMachineRepository _snackMachineRepository;
 
     public override string Caption => "Snack Machine";
-    public string? MoneyInTransaction => _snackMachine.MoneyInTransaction.ToString();
+    // ReSharper disable once SpecifyACultureInStringConversionExplicitly
+    public string MoneyInTransaction => _snackMachine.MoneyInTransaction.ToString();
     public Money MoneyInside => _snackMachine.MoneyInside;
 
     public IReadOnlyList<SnackPileViewModel> Piles

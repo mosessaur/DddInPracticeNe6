@@ -1,6 +1,6 @@
-﻿using DddInPractice.Domain;
+﻿using DddInPractice.Domain.Common;
 
-namespace DddInPractice.Data;
+namespace DddInPractice.Data.Common;
 
 public abstract class RepositoryBase<T> : IRepository<T> where T : AggregateRootBase
 {

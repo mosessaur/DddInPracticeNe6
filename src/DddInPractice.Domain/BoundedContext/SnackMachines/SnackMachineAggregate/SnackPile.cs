@@ -1,15 +1,16 @@
 ﻿using System;
+using DddInPractice.Domain.Common;
 
-namespace DddInPractice.Domain
+namespace DddInPractice.Domain.BoundedContext.SnackMachines.SnackMachineAggregate
 {
     public sealed class SnackPile : ValueObjectBase<SnackPile>
     {
-        public static readonly SnackPile Empty = new SnackPile(Snack.None, 0, 0m);
+        public static SnackPile Empty => new SnackPile(Snack.None, 0, 0m);
 
         public Snack Snack { get; }
         public int Quantity { get; }
         public decimal Price { get; }
-
+        
         private SnackPile() //Required by EF
         {
             Snack = Snack.None;

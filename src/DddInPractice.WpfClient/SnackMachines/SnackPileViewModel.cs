@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media;
-using DddInPractice.Domain;
+using DddInPractice.Domain.BoundedContext.SnackMachines.SnackMachineAggregate;
 
-namespace DddInPractice.WpfClient;
+namespace DddInPractice.WpfClient.SnackMachines;
 
 public class SnackPileViewModel
 {
@@ -12,8 +12,8 @@ public class SnackPileViewModel
     public string Price => _snackPile.Price.ToString("C2");
     public int Amount => _snackPile.Quantity;
     public int ImageWidth => GetImageWidth(_snackPile.Snack);
-    public ImageSource Image =>
-        (ImageSource)Application.Current.FindResource("img" + _snackPile.Snack.Name);
+    public ImageSource? Image =>
+        (ImageSource?)Application.Current.FindResource("img" + _snackPile.Snack.Name);
 
     public SnackPileViewModel(SnackPile snackPile)
     {

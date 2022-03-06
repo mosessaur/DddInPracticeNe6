@@ -4,7 +4,7 @@ namespace DddInPractice.WpfClient.Common;
 
 public partial class CustomWindow : Window
 {
-    public CustomWindow(ViewModel viewModel)
+    public CustomWindow(ViewModelBase viewModel)
     {
         InitializeComponent();
 
