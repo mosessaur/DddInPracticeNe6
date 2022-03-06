@@ -6,10 +6,10 @@ namespace DddInPractice.WpfClient;
 public class SnackMachineViewModel : ViewModel
 {
     private readonly SnackMachine _snackMachine;
-
+        
     public override string Caption => "Snack Machine";
     public string? MoneyInTransaction => _snackMachine.MoneyInTransaction.ToString();
-    public Money MoneyInside => _snackMachine.MoneyInside + _snackMachine.MoneyInTransaction;
+    public Money MoneyInside => _snackMachine.MoneyInside;
 
     private string _message = "";
     public string Message
@@ -47,7 +47,7 @@ public class SnackMachineViewModel : ViewModel
 
     private void BuySnack()
     {
-        _snackMachine.BuySnack();
+        _snackMachine.BuySnack(1);
         using (var dbContext = DataContextFactory.CreateDataContext())
         {
             dbContext.SaveChanges();

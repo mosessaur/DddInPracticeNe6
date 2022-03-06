@@ -1,30 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using static DddInPractice.Domain.Money;
 
 namespace DddInPractice.Domain
 {
-    public sealed class SnackMachine : EntityBase
+    public sealed class SnackMachine : AggregateRootBase
     {
-        public Money MoneyInside { get; private set; } = None;
-        public Money MoneyInTransaction { get; private set; } = None;
+        private List<Slot> Slots { get; }
+        public Money MoneyInside { get; private set; }
+        public decimal MoneyInTransaction { get; private set; }
 
-        //public SnackMachine(long id, Money moneyInside)
-        //{
-        //    Id = id;
-        //    MoneyInside = moneyInside;
-        //}
+        public SnackMachine()
+        {
+            MoneyInside = None;
+            MoneyInTransaction = 0;
+            Slots = new List<Slot>();
+        }
 
-        //public SnackMachine(Money moneyInside)
-        //{
-        //    MoneyInside = moneyInside;
-        //}
+        public Slot GetSlot(int position)
+        {
+            return Slots.Single(s => s.Position == position);
+        }
 
-        //public SnackMachine()
-        //{
-        //}
-
+        public SnackPile GetSnackPile(int position)
+        {
+            var slot = GetSlot(position);
+            return slot.SnackPile;
+        }
+        
         public void InsertMoney(Money money)
         {
             Money[] coinsAndNotes =
@@ -34,18 +39,54 @@ namespace DddInPractice.Domain
             if (!coinsAndNotes.Contains(money))
                 throw new InvalidOperationException();
 
-            MoneyInTransaction += money;
+            MoneyInTransaction += money.Amount;
+            MoneyInside += money;
         }
 
         public void ReturnMoney()
         {
-            MoneyInTransaction = None;
+            Money moneyToReturn = MoneyInside.Allocate(MoneyInTransaction);
+            MoneyInside -= moneyToReturn;
+            MoneyInTransaction = 0;
         }
 
-        public void BuySnack()
+        public void BuySnack(int position)
         {
-            MoneyInside += MoneyInTransaction;
-            MoneyInTransaction = None;
+            var slot = GetSlot(position);
+            if (slot.SnackPile.Price > MoneyInTransaction)
+                throw new InvalidOperationException();
+
+            slot.SnackPile = slot.SnackPile.SubtractOne();
+
+            var moneyToAllocate = MoneyInTransaction - slot.SnackPile.Price;
+            Money change = MoneyInside.Allocate(moneyToAllocate);
+            if (change.Amount < moneyToAllocate)
+                throw new InvalidOperationException();
+
+            MoneyInside -= change;
+            MoneyInTransaction = 0;
+        }
+
+        public void LoadSnacks(int position, SnackPile snackPile)
+        {
+            var slot = Slots.Single(s => s.Position == position);
+            slot.SnackPile = snackPile;
+
+        }
+
+        public void LoadMoney(Money money)
+        {
+            MoneyInside += money;
+        }
+
+        public static SnackMachine CreateSnackMachineWithSlots()
+        {
+            var sm = new SnackMachine();
+
+            sm.Slots.Add(new Slot(sm, 1));
+            sm.Slots.Add(new Slot(sm, 2));
+            sm.Slots.Add(new Slot(sm, 3));
+            return sm;
         }
     }
 }
