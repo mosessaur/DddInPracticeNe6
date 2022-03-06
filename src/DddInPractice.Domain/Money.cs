@@ -56,34 +56,6 @@ namespace DddInPractice.Domain
             TwentyDollarCount = twentyDollarCount;
         }
 
-        internal Money Allocate(decimal amount)
-        {
-            int twentyDollarCount = Math.Min((int)(amount / 20), TwentyDollarCount);
-            amount = amount - twentyDollarCount * 20;
-
-            int fiveDollarCount = Math.Min((int)(amount / 5), FiveDollarCount);
-            amount = amount - fiveDollarCount * 5;
-
-            int oneDollarCount = Math.Min((int)amount, OneDollarCount);
-            amount = amount - oneDollarCount;
-
-            int quarterCount = Math.Min((int)(amount / 0.25m), QuarterCount);
-            amount = amount - quarterCount * 0.25m;
-
-            int tenCentCount = Math.Min((int)(amount / 0.1m), TenCentCount);
-            amount = amount - tenCentCount * 0.1m;
-
-            int oneCentCount = Math.Min((int)(amount / 0.01m), OneCentCount);
-
-            return new Money(
-                oneCentCount,
-                tenCentCount,
-                quarterCount,
-                oneDollarCount,
-                fiveDollarCount,
-                twentyDollarCount);
-        }
-
         public static Money operator +(Money money1, Money money2)
         {
             Money sum = new Money(
@@ -151,6 +123,48 @@ namespace DddInPractice.Domain
                 return "¢" + (Amount * 100).ToString("0");
 
             return "$" + Amount.ToString("0.00");
+        }
+
+        public bool CanAllocate(decimal amount)
+        {
+            Money money = AllocateCore(amount);
+            return money.Amount == amount;
+        }
+
+        public Money Allocate(decimal amount)
+        {
+            if (!CanAllocate(amount))
+                throw new InvalidOperationException();
+
+            return AllocateCore(amount);
+        }
+
+        private Money AllocateCore(decimal amount)
+        {
+            int twentyDollarCount = Math.Min((int)(amount / 20), TwentyDollarCount);
+            amount = amount - twentyDollarCount * 20;
+
+            int fiveDollarCount = Math.Min((int)(amount / 5), FiveDollarCount);
+            amount = amount - fiveDollarCount * 5;
+
+            int oneDollarCount = Math.Min((int)amount, OneDollarCount);
+            amount = amount - oneDollarCount;
+
+            int quarterCount = Math.Min((int)(amount / 0.25m), QuarterCount);
+            amount = amount - quarterCount * 0.25m;
+
+            int tenCentCount = Math.Min((int)(amount / 0.1m), TenCentCount);
+            amount = amount - tenCentCount * 0.1m;
+
+            int oneCentCount = Math.Min((int)(amount / 0.01m), OneCentCount);
+
+            return new Money(
+                oneCentCount,
+                tenCentCount,
+                quarterCount,
+                oneDollarCount,
+                fiveDollarCount,
+                twentyDollarCount);
         }
     }
 }

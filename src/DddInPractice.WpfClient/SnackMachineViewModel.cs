@@ -1,4 +1,8 @@
-﻿using DddInPractice.Domain;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using DddInPractice.Data;
+using DddInPractice.Domain;
 using DddInPractice.WpfClient.Common;
 
 namespace DddInPractice.WpfClient;
@@ -6,10 +10,21 @@ namespace DddInPractice.WpfClient;
 public class SnackMachineViewModel : ViewModel
 {
     private readonly SnackMachine _snackMachine;
-        
+    private readonly SnackMachineRepository _snackMachineRepository;
+
     public override string Caption => "Snack Machine";
     public string? MoneyInTransaction => _snackMachine.MoneyInTransaction.ToString();
     public Money MoneyInside => _snackMachine.MoneyInside;
+
+    public IReadOnlyList<SnackPileViewModel> Piles
+    {
+        get
+        {
+            return _snackMachine.GetAllSnackPiles()
+                .Select(x => new SnackPileViewModel(x))
+                .ToList();
+        }
+    }
 
     private string _message = "";
     public string Message
@@ -22,36 +37,45 @@ public class SnackMachineViewModel : ViewModel
         }
     }
 
-    public Command InsertCentCommand { get; private set; }
-    public Command InsertTenCentCommand { get; private set; }
-    public Command InsertQuarterCommand { get; private set; }
-    public Command InsertDollarCommand { get; private set; }
-    public Command InsertFiveDollarCommand { get; private set; }
-    public Command InsertTwentyDollarCommand { get; private set; }
-    public Command ReturnMoneyCommand { get; private set; }
-    public Command BuySnackCommand { get; private set; }
+    public Command InsertCentCommand { get; }
+    public Command InsertTenCentCommand { get; }
+    public Command InsertQuarterCommand { get; }
+    public Command InsertDollarCommand { get; }
+    public Command InsertFiveDollarCommand { get; }
+    public Command InsertTwentyDollarCommand { get; }
+    public Command ReturnMoneyCommand { get; }
+    public Command<string> BuySnackCommand { get; }
 
     public SnackMachineViewModel(SnackMachine snackMachine)
     {
         _snackMachine = snackMachine;
-
+        _snackMachineRepository = new SnackMachineRepository();
         InsertCentCommand = new Command(() => InsertMoney(Money.Cent));
         InsertTenCentCommand = new Command(() => InsertMoney(Money.TenCent));
         InsertQuarterCommand = new Command(() => InsertMoney(Money.Quarter));
         InsertDollarCommand = new Command(() => InsertMoney(Money.Dollar));
         InsertFiveDollarCommand = new Command(() => InsertMoney(Money.FiveDollar));
         InsertTwentyDollarCommand = new Command(() => InsertMoney(Money.TwentyDollar));
-        ReturnMoneyCommand = new Command(() => ReturnMoney());
-        BuySnackCommand = new Command(() => BuySnack());
+        ReturnMoneyCommand = new Command(ReturnMoney);
+        BuySnackCommand = new Command<string>(BuySnack);
     }
 
-    private void BuySnack()
+    private void BuySnack(string? positionString)
     {
-        _snackMachine.BuySnack(1);
-        using (var dbContext = DataContextFactory.CreateDataContext())
+        if (string.IsNullOrWhiteSpace(positionString))
+            throw new ArgumentException($"{positionString} cannot be null or empty", nameof(positionString));
+
+        int position = int.Parse(positionString);
+
+        string error = _snackMachine.CanBuySnack(position);
+        if (error != string.Empty)
         {
-            dbContext.SaveChanges();
+            NotifyClient(error);
+            return;
         }
+
+        _snackMachine.BuySnack(position);
+        _snackMachineRepository.Save(_snackMachine);
         NotifyClient("You have bought a snack");
     }
 

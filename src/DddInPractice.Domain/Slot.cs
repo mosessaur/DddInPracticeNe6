@@ -4,13 +4,23 @@
     {
         public int Position { get; private set; }
         public SnackPile SnackPile { get; internal set; }
-        public SnackMachine SnackMachine { get; internal set; }
+        public SnackMachine? SnackMachine { get; internal set; }
 
-        public Slot(SnackMachine snackMachine, int position)
+        private Slot() //Required by EF
+        {
+            SnackPile = SnackPile.Empty;
+        }
+
+        public Slot(SnackMachine snackMachine, int position, SnackPile snackPile)
         {
             SnackMachine = snackMachine;
             Position = position;
-            SnackPile = new SnackPile(null, 0, 0m);
+            SnackPile = snackPile;
+        }
+
+        public Slot(SnackMachine snackMachine, int position)
+            : this(snackMachine, position, SnackPile.Empty)
+        {
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
-
 using Xunit;
-
 using static DddInPractice.Domain.Money;
+using static DddInPractice.Domain.Snack;
 
 namespace DddInPractice.Domain.Tests;
 
@@ -48,14 +48,16 @@ public class SnackMachineSpecs
         const int snackPos = 1;
         var snackMachine = SnackMachine.CreateSnackMachineWithSlots();
         
-        snackMachine.LoadSnacks(snackPos, new SnackPile(new Snack("Some snack"), 10, 1m));
+        snackMachine.LoadSnacks(snackPos, new SnackPile(Chocolate, 10, 1m));
         snackMachine.InsertMoney(Dollar);
 
         snackMachine.BuySnack(snackPos);
 
         snackMachine.MoneyInTransaction.Should().Be(0);
         snackMachine.MoneyInside.Amount.Should().Be(1m);
-        snackMachine.GetSnackPile(snackPos).Quantity.Should().Be(9);
+        var snackPile = snackMachine.GetSnackPile(snackPos);
+        snackPile.Should().NotBeNull();
+        snackPile!.Quantity.Should().Be(9);
     }
 
     [Fact]
@@ -71,8 +73,8 @@ public class SnackMachineSpecs
     [Fact]
     public void Cannot_make_purchase_if_not_enough_money_inserted()
     {
-        var snackMachine = SnackMachine.CreateSnackMachineWithSlots();
-        snackMachine.LoadSnacks(1, new SnackPile(new Snack("Some snack"), 1, 2m));
+        var snackMachine = SnackMachine.CreateSnackMachineWithSlots(); ;
+        snackMachine.LoadSnacks(1, new SnackPile(Chocolate, 1, 2m));
         snackMachine.InsertMoney(Dollar);
 
         Action action = () => snackMachine.BuySnack(1);
@@ -100,7 +102,7 @@ public class SnackMachineSpecs
     public void After_purchase_change_is_returned()
     {
         var snackMachine = SnackMachine.CreateSnackMachineWithSlots();
-        snackMachine.LoadSnacks(1, new SnackPile(new Snack("Some snack"), 1, 0.5m));
+        snackMachine.LoadSnacks(1, new SnackPile(Chocolate, 1, 0.5m));
         snackMachine.LoadMoney(TenCent * 10);
 
         snackMachine.InsertMoney(Dollar);
@@ -114,7 +116,7 @@ public class SnackMachineSpecs
     public void Cannot_buy_snack_if_not_enough_change()
     {
         var snackMachine = SnackMachine.CreateSnackMachineWithSlots();
-        snackMachine.LoadSnacks(1, new SnackPile(new Snack("Some snack"), 1, 0.5m));
+        snackMachine.LoadSnacks(1, new SnackPile(Chocolate, 1, 0.5m));
         snackMachine.InsertMoney(Dollar);
 
         Action action = () => snackMachine.BuySnack(1);

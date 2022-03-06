@@ -8,7 +8,9 @@ namespace DddInPractice.Domain
 {
     public sealed class SnackMachine : AggregateRootBase
     {
-        private List<Slot> Slots { get; }
+        public const string SlotsNavigationPropertyName = nameof(Slots);
+
+        private IList<Slot> Slots { get; }
         public Money MoneyInside { get; private set; }
         public decimal MoneyInTransaction { get; private set; }
 
@@ -19,17 +21,32 @@ namespace DddInPractice.Domain
             Slots = new List<Slot>();
         }
 
-        public Slot GetSlot(int position)
+        public SnackMachine(bool loadSlots) : this()
         {
-            return Slots.Single(s => s.Position == position);
+            if (loadSlots)
+                Slots = new List<Slot>()
+                {
+                    new Slot(this, 1),
+                    new Slot(this, 2),
+                    new Slot(this, 3),
+                };
         }
 
-        public SnackPile GetSnackPile(int position)
+        public SnackMachine(Money moneyInside, IList<Slot> slots)
         {
-            var slot = GetSlot(position);
-            return slot.SnackPile;
+            MoneyInside = moneyInside;
+            Slots = slots;
         }
-        
+
+        public Slot GetSlot(int position) => Slots.Single(s => s.Position == position);
+
+        public SnackPile GetSnackPile(int position) => GetSlot(position).SnackPile;
+
+        public IReadOnlyList<SnackPile> GetAllSnackPiles() => Slots
+                .OrderBy(x => x.Position)
+                .Select(x => x.SnackPile)
+                .ToList();
+
         public void InsertMoney(Money money)
         {
             Money[] coinsAndNotes =
@@ -50,9 +67,26 @@ namespace DddInPractice.Domain
             MoneyInTransaction = 0;
         }
 
+        public string CanBuySnack(int position)
+        {
+            SnackPile snackPile = GetSnackPile(position);
+
+            if (snackPile.Quantity == 0)
+                return "The snack pile is empty";
+
+            if (MoneyInTransaction < snackPile.Price)
+                return "Not enough money";
+
+            if (!MoneyInside.CanAllocate(MoneyInTransaction - snackPile.Price))
+                return "Not enough change";
+
+            return string.Empty;
+        }
+
         public void BuySnack(int position)
         {
             var slot = GetSlot(position);
+
             if (slot.SnackPile.Price > MoneyInTransaction)
                 throw new InvalidOperationException();
 

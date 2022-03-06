@@ -1,4 +1,5 @@
-﻿using DddInPractice.Domain;
+﻿using DddInPractice.Data;
+using DddInPractice.Domain;
 
 namespace DddInPractice.WpfClient.Common;
 
@@ -6,11 +7,10 @@ public class MainViewModel : ViewModel
 {
     public MainViewModel()
     {
-        SnackMachine? snackMachine;
-        using (var dbContext = DataContextFactory.CreateDataContext())
-        {
-            snackMachine = dbContext.SnackMachines.Find(1L);
-        }
+        var snackMachineRepository = new SnackMachineRepository();
+
+        var snackMachine = snackMachineRepository.GetById(1L);
+
         if (snackMachine is null)
             return;
 

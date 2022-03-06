@@ -4,11 +4,18 @@ namespace DddInPractice.Domain
 {
     public sealed class SnackPile : ValueObjectBase<SnackPile>
     {
-        public Snack? Snack { get; }
+        public static readonly SnackPile Empty = new SnackPile(Snack.None, 0, 0m);
+
+        public Snack Snack { get; }
         public int Quantity { get; }
         public decimal Price { get; }
 
-        public SnackPile(Snack? snack, int quantity, decimal price)
+        private SnackPile() //Required by EF
+        {
+            Snack = Snack.None;
+        }
+        
+        public SnackPile(Snack snack, int quantity, decimal price)
         {
             if (quantity < 0)
                 throw new InvalidOperationException();
