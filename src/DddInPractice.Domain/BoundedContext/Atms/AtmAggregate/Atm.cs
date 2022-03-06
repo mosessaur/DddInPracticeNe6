@@ -1,4 +1,5 @@
 ﻿using System;
+using DddInPractice.Domain.BoundedContext.Atms.Events;
 using DddInPractice.Domain.Common;
 using DddInPractice.Domain.SharedKernel;
 using static DddInPractice.Domain.SharedKernel.Money;
@@ -49,6 +50,8 @@ namespace DddInPractice.Domain.BoundedContext.Atms.AtmAggregate
 
             decimal amountWithCommission = CalculateAmountWithCommission(amount);
             MoneyCharged += amountWithCommission;
+
+            AddDomainEvent(new BalanceChangedEvent(amountWithCommission));
         }
 
         public void LoadMoney(Money money)

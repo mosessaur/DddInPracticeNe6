@@ -25,7 +25,7 @@ namespace DddInPractice.Domain.BoundedContext.SnackMachines.SnackMachineAggregat
         public SnackMachine(bool loadSlots) : this()
         {
             if (loadSlots)
-                Slots = new List<Slot>()
+                Slots = new List<Slot>
                 {
                     new Slot(this, 1),
                     new Slot(this, 2),
@@ -112,6 +112,16 @@ namespace DddInPractice.Domain.BoundedContext.SnackMachines.SnackMachineAggregat
         public void LoadMoney(Money money)
         {
             MoneyInside += money;
+        }
+
+        public Money UnloadMoney()
+        {
+            if (MoneyInTransaction > 0)
+                throw new InvalidOperationException();
+
+            Money money = MoneyInside;
+            MoneyInside = None;
+            return money;
         }
 
         public static SnackMachine CreateSnackMachineWithSlots()

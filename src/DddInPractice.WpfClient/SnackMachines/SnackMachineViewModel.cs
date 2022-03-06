@@ -7,7 +7,6 @@ using DddInPractice.Domain.SharedKernel;
 using DddInPractice.WpfClient.Common;
 
 namespace DddInPractice.WpfClient.SnackMachines;
-
 public class SnackMachineViewModel : ViewModelBase
 {
     private readonly SnackMachine _snackMachine;

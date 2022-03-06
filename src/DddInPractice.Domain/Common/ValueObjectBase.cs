@@ -1,6 +1,11 @@
 ﻿namespace DddInPractice.Domain.Common
 {
-    public abstract class ValueObjectBase<T>
+    public interface IValueObject
+    {
+
+    }
+
+    public abstract class ValueObjectBase<T>: IValueObject
         where T : ValueObjectBase<T>
     {
         public override bool Equals(object obj)
@@ -22,7 +27,7 @@
 
         protected abstract int GetHashCodeCore();
 
-        public static bool operator ==(ValueObjectBase<T> a, ValueObjectBase<T> b)
+        public static bool operator ==(ValueObjectBase<T>? a, ValueObjectBase<T>? b)
         {
             if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
                 return true;

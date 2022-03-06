@@ -6,7 +6,7 @@ namespace DddInPractice.WpfClient.Common;
 
 public class MainDataTemplateSelector : DataTemplateSelector
 {
-    public override DataTemplate? SelectTemplate(object item, DependencyObject container)
+    public override DataTemplate? SelectTemplate(object? item, DependencyObject container)
     {
         if (item == null || Application.Current == null)
         {

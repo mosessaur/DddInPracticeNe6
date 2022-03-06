@@ -28,12 +28,12 @@ internal class SnackMachineEntityConfiguration : IEntityTypeConfiguration<SnackM
             navBldr.HasData(new
             {
                 SnackMachineId = 1L,
-                OneCentCount = 10,
-                TenCentCount = 10,
-                QuarterCount = 10,
-                OneDollarCount = 10,
-                FiveDollarCount = 10,
-                TwentyDollarCount = 10,
+                OneCentCount = 0,
+                TenCentCount = 0,
+                QuarterCount = 0,
+                OneDollarCount = 0,
+                FiveDollarCount = 0,
+                TwentyDollarCount = 0,
             });
         });
 

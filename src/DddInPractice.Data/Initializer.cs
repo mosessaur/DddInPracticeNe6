@@ -1,4 +1,7 @@
-﻿namespace DddInPractice.Data;
+﻿using DddInPractice.Data.Common;
+using DddInPractice.Data.Management;
+
+namespace DddInPractice.Data;
 public static class Initializer
 {
     public static void Initialize(string connectionString)
@@ -7,5 +10,7 @@ public static class Initializer
             throw new ArgumentException("Connection string cannot be null or empty", nameof(connectionString));
 
         DataContextFactory.Init(connectionString);
+        HeadOfficeInstance.Init();
+        DomainEventDispatcher.Init();
     }
 }

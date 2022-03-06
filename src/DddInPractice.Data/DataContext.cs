@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using DddInPractice.Domain;
 using DddInPractice.Domain.BoundedContext.Atms.AtmAggregate;
 using DddInPractice.Domain.BoundedContext.SnackMachines.SnackMachineAggregate;
 using Microsoft.EntityFrameworkCore;
@@ -31,11 +30,6 @@ public class DataContext : DbContext
         //builder.HasSequence("SnackMachineSeq").StartsAt(1).IncrementsBy(5).HasMin(0).HasMax(long.MaxValue);
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-
     }
 }
 #nullable enable

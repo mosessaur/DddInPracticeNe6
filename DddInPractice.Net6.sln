@@ -7,9 +7,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DddInPractice.Domain", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DddInPractice.Domain.Tests", "tests\DddInPractice.Domain.Tests\DddInPractice.Domain.Tests.csproj", "{1EA5A350-6DD9-4BE0-A1A4-9088DA698456}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DddInPractice.Data", "src\DddInPractice.Data\DddInPractice.Data.csproj", "{72B59978-2766-4737-BD27-131817752411}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DddInPractice.Data", "src\DddInPractice.Data\DddInPractice.Data.csproj", "{72B59978-2766-4737-BD27-131817752411}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DddInPractice.WpfClient", "src\DddInPractice.WpfClient\DddInPractice.WpfClient.csproj", "{1A75CC83-8101-442A-BDEF-932BC3BA9408}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DddInPractice.WpfClient", "src\DddInPractice.WpfClient\DddInPractice.WpfClient.csproj", "{1A75CC83-8101-442A-BDEF-932BC3BA9408}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5810A2D5-40DD-46F1-906B-1F756CF1F91B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{898914A2-8A91-4BDA-8E74-6F55F5CD65A8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{D38F590E-B180-4E10-905E-00AA1A95A26F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{17A1062D-75AB-4FC6-B655-715E29DC5C25}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ui", "Ui", "{295B685E-A100-4A30-ACC0-D96C2FA492EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +46,15 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B5108E50-DF39-4151-8FF5-16E78CA2718E} = {D38F590E-B180-4E10-905E-00AA1A95A26F}
+		{1EA5A350-6DD9-4BE0-A1A4-9088DA698456} = {898914A2-8A91-4BDA-8E74-6F55F5CD65A8}
+		{72B59978-2766-4737-BD27-131817752411} = {17A1062D-75AB-4FC6-B655-715E29DC5C25}
+		{1A75CC83-8101-442A-BDEF-932BC3BA9408} = {295B685E-A100-4A30-ACC0-D96C2FA492EE}
+		{D38F590E-B180-4E10-905E-00AA1A95A26F} = {5810A2D5-40DD-46F1-906B-1F756CF1F91B}
+		{17A1062D-75AB-4FC6-B655-715E29DC5C25} = {5810A2D5-40DD-46F1-906B-1F756CF1F91B}
+		{295B685E-A100-4A30-ACC0-D96C2FA492EE} = {5810A2D5-40DD-46F1-906B-1F756CF1F91B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7A25EF59-C64D-4CD8-B16A-0C5AE06AA14A}

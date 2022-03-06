@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DddInPractice.Data.Interceptors;
+using Microsoft.EntityFrameworkCore;
 
 namespace DddInPractice.Data;
 
@@ -20,10 +21,11 @@ internal static class DataContextFactory
             throw new InvalidOperationException("Connection string is not initialized");
 
         var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-
+        
         optionsBuilder.UseSqlServer(_connectionString,
             opt => opt.MigrationsAssembly(typeof(DataContext).Assembly.FullName));
-
+        
+        optionsBuilder.AddInterceptors(new SaveChangesInterceptor());
         return new DataContext(optionsBuilder.Options);
     }
 }
