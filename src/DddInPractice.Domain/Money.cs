@@ -2,7 +2,7 @@
 
 namespace DddInPractice.Domain
 {
-    public class Money: ValueObjectBase<Money>
+    public sealed class Money: ValueObjectBase<Money>
     {
         public static readonly Money None = new Money(0, 0, 0, 0, 0, 0);
         public static readonly Money Cent = new Money(1, 0, 0, 0, 0, 0);
@@ -102,6 +102,14 @@ namespace DddInPractice.Domain
                 hashCode = (hashCode * 397) ^ TwentyDollarCount;
                 return hashCode;
             }
+        }
+
+        public override string ToString()
+        {
+            if (Amount < 1)
+                return "¢" + (Amount * 100).ToString("0");
+
+            return "$" + Amount.ToString("0.00");
         }
     }
 }

@@ -5,10 +5,25 @@ using static DddInPractice.Domain.Money;
 
 namespace DddInPractice.Domain
 {
-    public class SnackMachine : EntityBase
+    public sealed class SnackMachine : EntityBase
     {
         public Money MoneyInside { get; private set; } = None;
         public Money MoneyInTransaction { get; private set; } = None;
+
+        //public SnackMachine(long id, Money moneyInside)
+        //{
+        //    Id = id;
+        //    MoneyInside = moneyInside;
+        //}
+
+        //public SnackMachine(Money moneyInside)
+        //{
+        //    MoneyInside = moneyInside;
+        //}
+
+        //public SnackMachine()
+        //{
+        //}
 
         public void InsertMoney(Money money)
         {
